@@ -7,7 +7,7 @@
   <meta name="description" content="Студия красоты «Lavanda» в Белгороде. Женские стрижки, сложное окрашивание, укладки и уход. Онлайн-запись без звонков.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-primary: #F5F0EA;
@@ -22,6 +22,7 @@
       --error-bg: #FDF4F3;
 
       --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-script: 'Great Vibes', Georgia, serif;
       --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
 
       --radius-sm: 10px;
@@ -57,6 +58,76 @@
       font-size: 15px;
       background-color: var(--bg-primary);
       overflow-x: hidden;
+    }
+
+    body.intro-lock {
+      overflow: hidden;
+    }
+
+    /* Intro Splash Animation */
+    .intro-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background-color: var(--bg-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.85s var(--ease-out);
+    }
+
+    .intro-overlay.is-moving {
+      background-color: transparent;
+      pointer-events: none;
+    }
+
+    .intro-logo {
+      font-family: var(--font-script);
+      font-size: clamp(68px, 14vw, 144px);
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: baseline;
+      line-height: 1;
+      padding-right: 0.08em;
+      transform-origin: center center;
+      will-change: transform;
+      transition: transform 0.95s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .intro-char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(22px) rotate(-4deg);
+      filter: blur(6px);
+      animation: charReveal 0.7s var(--ease-out) forwards;
+    }
+
+    @keyframes charReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+        filter: blur(0);
+      }
+    }
+
+    body.intro-active header .nav,
+    body.intro-active main,
+    body.intro-active footer {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    body.intro-logo-hidden header .logo {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    header .nav,
+    main,
+    footer {
+      transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out);
     }
 
     img {
@@ -181,24 +252,16 @@
     }
 
     .logo {
-      font-family: var(--font-serif);
-      font-size: 28px;
-      font-weight: 500;
-      letter-spacing: 0.03em;
+      font-family: var(--font-script);
+      font-size: 38px;
+      font-weight: 400;
+      letter-spacing: 0.01em;
       text-decoration: none;
       color: var(--text-primary);
       display: inline-flex;
       align-items: baseline;
-      gap: 2px;
-    }
-
-    .logo-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background-color: var(--accent);
-      display: inline-block;
-      margin-left: 2px;
+      line-height: 1;
+      padding-right: 0.08em;
     }
 
     .nav {
@@ -860,12 +923,12 @@
     }
 
     .footer-logo {
-      font-family: var(--font-serif);
-      font-size: 28px;
-      font-weight: 500;
+      font-family: var(--font-script);
+      font-size: 38px;
+      font-weight: 400;
       color: #FFFFFF;
       text-decoration: none;
-      letter-spacing: 0.03em;
+      line-height: 1;
     }
 
     .footer-links {
@@ -965,6 +1028,10 @@
         height: 66px;
       }
 
+      .logo {
+        font-size: 34px;
+      }
+
       .nav {
         gap: 16px;
       }
@@ -1036,6 +1103,17 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
+      .intro-overlay {
+        display: none !important;
+      }
+      body.intro-active header .nav,
+      body.intro-active main,
+      body.intro-active footer,
+      body.intro-logo-hidden header .logo {
+        opacity: 1 !important;
+        transform: none !important;
+        pointer-events: auto !important;
+      }
       .reveal {
         opacity: 1;
         transform: none;
@@ -1043,11 +1121,17 @@
     }
   </style>
 </head>
-<body>
+<body class="intro-active intro-logo-hidden intro-lock">
+
+  <div id="introOverlay" class="intro-overlay" aria-hidden="true">
+    <div id="introLogo" class="intro-logo">
+      <span class="intro-char" style="animation-delay: 0.08s">L</span><span class="intro-char" style="animation-delay: 0.16s">a</span><span class="intro-char" style="animation-delay: 0.24s">v</span><span class="intro-char" style="animation-delay: 0.32s">a</span><span class="intro-char" style="animation-delay: 0.40s">n</span><span class="intro-char" style="animation-delay: 0.48s">d</span><span class="intro-char" style="animation-delay: 0.56s">a</span>
+    </div>
+  </div>
 
   <header>
     <div class="container header-inner">
-      <a href="#" class="logo">Lavanda<span class="logo-dot" aria-hidden="true"></span></a>
+      <a href="#" id="headerLogo" class="logo">Lavanda</a>
       <nav class="nav" aria-label="Основная навигация">
         <a href="#services" class="nav-link">Услуги и цены</a>
         <a href="#contacts" class="nav-link">Контакты</a>
@@ -1389,6 +1473,45 @@
   </footer>
 
   <script>
+    // Интро-анимация: Lavanda по центру -> перелёт в позицию логотипа -> бесшовная подмена
+    (function initIntro() {
+      const overlay = document.getElementById('introOverlay');
+      const introLogo = document.getElementById('introLogo');
+      const headerLogo = document.getElementById('headerLogo');
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (prefersReduced || !overlay || !introLogo || !headerLogo) {
+        document.body.classList.remove('intro-active', 'intro-logo-hidden', 'intro-lock');
+        if (overlay) overlay.remove();
+        return;
+      }
+
+      window.scrollTo(0, 0);
+
+      setTimeout(() => {
+        const targetRect = headerLogo.getBoundingClientRect();
+        const introRect = introLogo.getBoundingClientRect();
+
+        const scale = targetRect.height / introRect.height;
+        const dx = (targetRect.left + targetRect.width / 2) - (introRect.left + introRect.width / 2);
+        const dy = (targetRect.top + targetRect.height / 2) - (introRect.top + introRect.height / 2);
+
+        overlay.classList.add('is-moving');
+        introLogo.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+
+        // Проявляем остальной контент, но логотип в шапке пока остаётся скрытым
+        setTimeout(() => {
+          document.body.classList.remove('intro-active', 'intro-lock');
+        }, 350);
+
+        // В момент завершения перелёта мгновенно подменяем летящий логотип на шапочный
+        setTimeout(() => {
+          document.body.classList.remove('intro-logo-hidden');
+          overlay.remove();
+        }, 950);
+      }, 1350);
+    })();
+
     // Вставьте URL серверной функции (прокси к MAX Bot API) для реальной отправки заявок в MAX.
     // Если оставить пустым — форма работает в демо-режиме.
     const BOOKING_ENDPOINT = '';
@@ -1400,7 +1523,6 @@
     dateInput.min = today;
     dateInput.value = today;
 
-    // Выбор услуги из прайса
     document.querySelectorAll('.select-service').forEach((btn) => {
       btn.addEventListener('click', () => {
         document.getElementById('service').value = btn.dataset.service;
@@ -1408,7 +1530,6 @@
       });
     });
 
-    // Выбор времени
     const timeInput = document.getElementById('time');
     document.querySelectorAll('.time-slot').forEach((slot) => {
       slot.addEventListener('click', () => {
@@ -1418,7 +1539,6 @@
       });
     });
 
-    // Снятие подсветки ошибки при вводе
     [
       [dateInput, document.getElementById('dateError')],
       [nameInput, document.getElementById('nameError')],
@@ -1430,7 +1550,6 @@
       });
     });
 
-    // Отправка формы
     const form = document.getElementById('bookingForm');
     const submitBtn = document.getElementById('submitBtn');
     const successBox = document.getElementById('successBox');
@@ -1506,7 +1625,6 @@
       successBox.classList.remove('visible');
     });
 
-    // Плавное появление секций и карточек при прокрутке
     const revealEls = document.querySelectorAll('.reveal');
     if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const observer = new IntersectionObserver((entries, obs) => {
